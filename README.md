@@ -21,11 +21,11 @@ All scripts are idempotent and can be safely run multiple times.
 First create an empty database:
 
 ```bash
-./bin/create_or_update_database.sh test.db
+./bin/create_or_update_database.sh test.duckdb
 ```
 
 Then populate it. The first run will take some time, as we grab data from Maven central and actually create some Java projects to have the actual shipped dependencies with Spring Boot and Neo4j-OGM projects:
 
 ```bash
-./bin/import_and_update.sh test.db
+./bin/import_and_update.sh test.duckdb
 ```

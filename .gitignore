@@ -1,6 +1,6 @@
 ### Us ###
 .tmp
-test.db
+test.duckdb
 
 ### IntelliJ IDEA ###
 .idea

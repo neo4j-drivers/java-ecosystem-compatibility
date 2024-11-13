@@ -14,7 +14,7 @@ CREATE OR REPLACE VIEW v_sdn_versions AS (
   FROM hlp v
   ASOF LEFT JOIN broadcom_support_matrix sm ON v.orderable_version >= f_make_version(sm.spring_boot)
   ASOF LEFT JOIN spring_boot_java_matrix sj ON v.orderable_version >= f_make_version(sj.spring_boot)
-  WINDOW release_order AS (PARTITION BY f_make_version(sm.spring_boot) ORDER BY orderable_version ASC)
+  WINDOW release_order AS (PARTITION BY f_make_version(v.spring_boot)[1:2] ORDER BY orderable_version ASC)
   ORDER BY orderable_version DESC
 );
 COMMENT ON VIEW v_sdn_versions IS
@@ -25,7 +25,7 @@ COMMENT ON VIEW v_sdn_versions IS
 -- v_oss_supported_sdn_versions
 --
 CREATE OR REPLACE VIEW v_oss_supported_sdn_versions AS (
-  SELECT *
+  SELECT * EXCLUDE(neo4j_ogm)
   FROM v_sdn_versions v
   WHERE end_of_oss_support >= today()
 );
@@ -37,7 +37,7 @@ COMMENT ON VIEW v_oss_supported_sdn_versions IS
 -- v_commercially_supported_sdn_versions
 --
 CREATE OR REPLACE VIEW v_commercially_supported_sdn_versions AS (
-   SELECT *
+   SELECT * EXCLUDE(neo4j_ogm)
    FROM v_sdn_versions v
    WHERE end_of_commercial_support >= today()
  );
