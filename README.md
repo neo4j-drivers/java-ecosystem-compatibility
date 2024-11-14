@@ -19,8 +19,6 @@ All data files reside in `data`.
 Those files are manually maintained and contain static information:
 
 <dl>
-<dt><code><a href="data/t_broadcom_support_matrix.csv">t_broadcom_support_matrix.csv</a></code></dt>
-<dd>Official timeline from Broadcom for Spring Boot support, sourced from <a href="https://spring.io/projects/spring-boot#support">https://spring.io/projects/spring-boot</a></dd>
 <dt><code><a href="data/t_driver_java_matrix.csv">t_driver_java_matrix.csv</a></code></dt>
 <dd>Minimum required Java version for releases of the Neo4j Java Driver, sourced by going through the corresponding <a href="https://github.com/neo4j/neo4j-java-driver/tags">tags of the readme</a></dd>
 <dt><code><a href="data/t_driver_server_matrix.csv">t_driver_server_matrix.csv</a></code></dt>

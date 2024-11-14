@@ -11,6 +11,21 @@ DIR="$(dirname "$(realpath "$0")")"
 DB="$(pwd)/$1"
 
 #
+# Get support status from Broadcom (The API over there prohibits HEAD request and thus DuckDB
+# will fail with read_json or read_json_auto over HTTP :(
+#
+curl -s https://api.spring.io/projects/spring-boot/generations |\
+  duckdb "$DB" -s """
+    INSERT INTO broadcom_support_matrix BY NAME
+    SELECT substr(name, 1, instr(name, '.x')-1) AS spring_boot,
+           initialReleaseDate AS initial_release,
+           ossSupportEndDate AS end_of_oss_support,
+           commercialSupportEndDate AS end_of_commercial_support
+    FROM (SELECT unnest(generations, recursive:=true) FROM (SELECT unnest(_embedded, recursive:=true) FROM read_json('/dev/stdin')))
+    ON CONFLICT DO NOTHING
+  """
+
+#
 # Load the static data that we created in a good, old artisanal fashion
 #
 
