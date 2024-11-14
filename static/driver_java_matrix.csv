@@ -1,0 +1,5 @@
+neo4j_java_driver,minimum_java_version
+1.0,7
+1.5,8
+2.0,8
+5.x,17

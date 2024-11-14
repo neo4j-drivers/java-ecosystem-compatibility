@@ -1,0 +1,4 @@
+neo4j_java_driver,supported
+1.0,false
+4.4,true
+5.x,true

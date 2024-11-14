@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Loads all static data and any information we can get from "the internet" into the datbase
+# Loads all static data and any information we can get from "the internet" into the database
 #
 
 set -euo pipefail
@@ -10,7 +10,15 @@ export LC_ALL=en_US.UTF-8
 DIR="$(dirname "$(realpath "$0")")"
 DB="$(pwd)/$1"
 
-duckdb "$DB" < "$DIR/../static/data.sql"
+#
+# Load the static data that we created in a good, old artisanal fashion
+#
+
+for csv in "$DIR"/../static/*.csv; do
+  csv=$(realpath "$csv")
+  table=$(basename "$csv" '.csv')
+  duckdb "$DB" -s "INSERT INTO $table SELECT * FROM read_csv('$csv') ON CONFLICT DO NOTHING"
+done;
 
 mkdir -p .tmp
 
