@@ -64,7 +64,7 @@ CREATE OR REPLACE VIEW v_java_driver_versions AS (
            dj.minimum_java_version
     FROM hlp v
     ASOF LEFT JOIN driver_support_matrix sm ON v.orderable_version >= f_make_version(sm.neo4j_java_driver)
-    ASOF LEFT JOIN dsm ON v.orderable_version >= f_make_version(dsm.neo4j_java_driver)
+    ASOF LEFT JOIN dsm ON v.orderable_version >= dsm.orderable_version
     ASOF LEFT JOIN driver_java_matrix dj ON v.orderable_version >= f_make_version(dj.neo4j_java_driver)
     WINDOW release_order AS (
        PARTITION BY IF(v.orderable_version[1] >= 5, v.orderable_version[1:1], v.orderable_version[1:2]) ORDER BY v.orderable_version ASC
@@ -112,7 +112,7 @@ CREATE OR REPLACE VIEW v_neo4j_driver_support_matrix AS (
            n.release_date,
            n.end_of_support,
            first(d.neo4j_java_driver ORDER BY f_make_version(d.neo4j_java_driver) DESC) AS recommended_driver,
-           list(DISTINCT d.line) AS compatible_driver_lines,
+           list(DISTINCT d.line ORDER BY f_make_version(d.line) DESC) AS compatible_driver_lines,
            (end_of_support IS NULL OR end_of_support >= today() AND first(d.supported ORDER BY f_make_version(d.neo4j_java_driver) DESC)) AS supported
     FROM v_neo4j_versions n, v_java_driver_versions d
     WHERE list_contains(d.neo4j_versions, n.line)
