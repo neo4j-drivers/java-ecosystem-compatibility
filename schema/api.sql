@@ -142,7 +142,7 @@ CREATE OR REPLACE VIEW v_neo4j_ogm_support_matrix AS (
        ASOF LEFT JOIN dsm ON f_make_version(supported_driver_line) >= dsm.orderable_version
     ),
     server_by_ogm AS (
-        SELECT neo4j_ogm, status,
+        SELECT neo4j_ogm, status, bolt_only,
                -- I'd rather use min_by and max_by here, but they don't support a list argument as order criterion
                list(supported_driver_line ORDER BY f_make_version(supported_driver_line))[1] AS first_supported_driver,
                list(supported_driver_line ORDER BY f_make_version(supported_driver_line))[-1] AS last_supported_driver,
@@ -151,13 +151,14 @@ CREATE OR REPLACE VIEW v_neo4j_ogm_support_matrix AS (
         GROUP BY ALL
     )
     SELECT neo4j_ogm AS "Neo4j-OGM", status AS Status,
+           bolt_only AS "Only Bolt support",
            list(neo4j_java_driver ORDER BY orderable_version)[1] AS "Minimum required Java driver",
            list(neo4j_java_driver ORDER BY orderable_version)[-1] AS "Maximum required Java driver",
            Neo4j,
     FROM server_by_ogm, drivers
     WHERE f_make_line(drivers.orderable_version) = f_make_line(f_make_version(first_supported_driver))
        OR f_make_line(drivers.orderable_version) = f_make_line(f_make_version(last_supported_driver))
-    GROUP BY neo4j_ogm, status, Neo4j,
+    GROUP BY neo4j_ogm, status, bolt_only, Neo4j,
     ORDER BY f_make_version(neo4j_ogm) DESC
 );
 COMMENT ON VIEW v_neo4j_ogm_support_matrix IS 'The list of Neo4j-OGM releases, their minimum required and maximum supported Java driver and the server version they can connect to';
