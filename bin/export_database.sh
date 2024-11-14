@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Exports all views into markdown files
+# Copies all views as CSV files into a target directory. Existing files will be overwritten.
 #
 
 set -euo pipefail
@@ -13,5 +13,5 @@ TARGET="$(pwd)/$2"
 for view in $(\
   duckdb "$DB" -noheader -csv -s "SELECT view_name FROM duckdb_views() WHERE NOT internal"\
 ); do
-  duckdb "$DB" -markdown "FROM $view" > "$TARGET/$view.md"
+  duckdb "$DB" "COPY $view TO '$TARGET/$view.csv'"
 done

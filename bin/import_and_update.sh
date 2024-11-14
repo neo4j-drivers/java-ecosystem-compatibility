@@ -14,9 +14,10 @@ DB="$(pwd)/$1"
 # Load the static data that we created in a good, old artisanal fashion
 #
 
-for csv in "$DIR"/../static/*.csv; do
+for csv in "$DIR"/../data/t_*.csv; do
   csv=$(realpath "$csv")
   table=$(basename "$csv" '.csv')
+  table="${table#t_}"
   duckdb "$DB" -s "INSERT INTO $table SELECT * FROM read_csv('$csv') ON CONFLICT DO NOTHING"
 done;
 

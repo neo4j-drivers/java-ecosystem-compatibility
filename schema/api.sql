@@ -41,7 +41,7 @@ CREATE OR REPLACE VIEW v_commercially_supported_sdn_versions AS (
    FROM v_sdn_versions v
    WHERE end_of_commercial_support >= today()
  );
-COMMENT ON VIEW v_oss_supported_sdn_versions IS
+COMMENT ON VIEW v_commercially_supported_sdn_versions IS
     'The list of all combinations of Spring Boot and SDN versions that are still supported under a commercial Broadcom license.';
 
 
