@@ -24,24 +24,26 @@ COMMENT ON VIEW v_sdn_versions IS
 --
 -- v_oss_supported_sdn_versions
 --
-CREATE OR REPLACE VIEW v_oss_supported_sdn_versions AS (
+DROP VIEW IF EXISTS v_oss_supported_sdn_versions;
+CREATE OR REPLACE VIEW v_sdn_versions_with_oss_support AS (
   SELECT * EXCLUDE(neo4j_ogm)
   FROM v_sdn_versions v
   WHERE end_of_oss_support >= today()
 );
-COMMENT ON VIEW v_oss_supported_sdn_versions IS
+COMMENT ON VIEW v_sdn_versions_with_oss_support IS
     'The list of all combinations of Spring Boot and SDN versions that are still OSS supported.';
 
 
 --
 -- v_commercially_supported_sdn_versions
 --
-CREATE OR REPLACE VIEW v_commercially_supported_sdn_versions AS (
+DROP VIEW IF EXISTS v_commercially_supported_sdn_versions;
+CREATE OR REPLACE VIEW v_sdn_versions_with_commercial_support AS (
    SELECT * EXCLUDE(neo4j_ogm)
    FROM v_sdn_versions v
    WHERE end_of_commercial_support >= today()
  );
-COMMENT ON VIEW v_commercially_supported_sdn_versions IS
+COMMENT ON VIEW v_sdn_versions_with_commercial_support IS
     'The list of all combinations of Spring Boot and SDN versions that are still supported under a commercial Broadcom license.';
 
 

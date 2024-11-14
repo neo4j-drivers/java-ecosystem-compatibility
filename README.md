@@ -53,8 +53,6 @@ Those files are manually maintained and contain static information:
 Those files are generated via `export_database.sh` and contain the following information:
 
 <dl>
-<dt><code>v_commercially_supported_sdn_versions.csv</code></dt>
-<dd>The list of all combinations of Spring Boot and SDN versions that are still supported under a commercial Broadcom license.</dd>
 <dt><code>v_java_driver_versions.csv</code></dt>
 <dd>The full list of all released versions of the Java driver, server_versions is a nested attribute, containing a list of supported servers.</dd>
 <dt><code>v_neo4j_driver_support_matrix.csv</code></dt>
@@ -63,10 +61,12 @@ Those files are generated via `export_database.sh` and contain the following inf
 <dd>The list of Neo4j-OGM releases, their minimum required and maximum supported Java driver and the server version they can connect to</dd>
 <dt><code>v_neo4j_versions.csv</code></dt>
 <dd>All known Neo4j versions</dd>
-<dt><code>v_oss_supported_sdn_versions.csv</code></dt>
-<dd>The list of all combinations of Spring Boot and SDN versions that are still OSS supported.</dd>
 <dt><code>v_sdn_versions.csv</code></dt>
 <dd>The list of all combinations of Spring Boot and SDN versions and whether they are supported in either an OSS or commercially way.</dd>
+<dt><code>v_sdn_versions_with_commercial_support.csv</code></dt>
+<dd>The list of all combinations of Spring Boot and SDN versions that are still supported under a commercial Broadcom license.</dd>
+<dt><code>v_sdn_versions_with_oss_support.csv</code></dt>
+<dd>The list of all combinations of Spring Boot and SDN versions that are still OSS supported.</dd>
 <dt><code>v_supported_java_driver_versions.csv</code></dt>
 <dd>All supported driver versions</dd>
 </dl>
