@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS broadcom_support_matrix (
     end_of_oss_support        DATE,
     end_of_commercial_support DATE
 );
-COMMENT ON TABLE broadcom_support_matrix IS 'State of support for Spring Boot from Broadcom';
+COMMENT ON TABLE broadcom_support_matrix IS 'Official timeline from Broadcom for Spring Boot support, sourced from <a href="https://spring.io/projects/spring-boot#support">https://spring.io/projects/spring-boot</a>';
 
 --
 -- spring_boot_java_matrix
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS spring_boot_java_matrix (
     spring_boot               VARCHAR(32) PRIMARY KEY,
     minimum_java_version      USMALLINT NOT NULL
 );
-COMMENT ON TABLE spring_boot_java_matrix IS 'State of Java versions for Spring Boot';
+COMMENT ON TABLE spring_boot_java_matrix IS 'Minimum required Java version for various Spring Boot releases, sourced by going through the corresponding <a href="https://docs.spring.io/spring-boot/system-requirements.html">manuals</a>';
 
 --
 -- driver_java_matrix
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS driver_java_matrix (
     neo4j_java_driver         VARCHAR(32) PRIMARY KEY,
     minimum_java_version      USMALLINT NOT NULL
 );
-COMMENT ON TABLE driver_java_matrix IS 'State of Java versions for the Neo4j Driver';
+COMMENT ON TABLE driver_java_matrix IS 'Minimum required Java version for releases of the Neo4j Java Driver, sourced by going through the corresponding <a href="https://github.com/neo4j/neo4j-java-driver/tags">tags of the readme</a>';
 
 --
 -- driver_versions
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS driver_support_matrix (
     neo4j_java_driver  VARCHAR(32) PRIMARY KEY,
     supported          BOOLEAN NOT NULL
 );
-COMMENT ON TABLE driver_support_matrix IS 'Support status for Neo4j Java driver';
+COMMENT ON TABLE driver_support_matrix IS 'List of supported driver versions, conversations and common sense';
 
 --
 -- driver_server_matrix
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS driver_server_matrix (
     neo4j_java_driver  VARCHAR(32) PRIMARY KEY,
     neo4j_versions     VARCHAR(32)[] NOT NULL
 );
-COMMENT ON TABLE driver_server_matrix IS 'Which server versions are supported by the specific driver';
+COMMENT ON TABLE driver_server_matrix IS 'List of drivers and the server versions that they support, sourced from <a href="https://github.com/neo4j/neo4j-java-driver/wiki">https://github.com/neo4j/neo4j-java-driver/wiki</a>';
 
 --
 -- neo4j_versions
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS neo4j_versions (
     release_date      DATE NOT NULL,
     end_of_support    DATE
 );
-COMMENT ON TABLE neo4j_versions IS 'Neo4j versions, their release dates and potentially, end of support date';
+COMMENT ON TABLE neo4j_versions IS 'All Neo4j versions and their support dates. End of support for the 5.x series is always <code>null</code>, as the release of the next version ends support of the previous. From <a href="https://neo4j.com/developer/kb/neo4j-supported-versions">https://neo4j.com/developer/kb/neo4j-supported-versions/</a>';
 
 --
 -- ogm_support_matrix
