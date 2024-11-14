@@ -85,3 +85,16 @@ CREATE TABLE IF NOT EXISTS neo4j_versions (
     end_of_support    DATE
 );
 COMMENT ON TABLE neo4j_versions IS 'Neo4j versions, their release dates and potentially, end of support date';
+
+--
+-- ogm_support_matrix
+--
+CREATE TABLE IF NOT EXISTS ogm_support_matrix (
+    neo4j_ogm VARCHAR(32) PRIMARY KEY,
+    bolt_only BOOLEAN NOT NULL,
+    status    VARCHAR(32) NOT NULL CHECK (status IN ('unsupported', 'bugfix', 'supported')),
+    supported_driver_lines VARCHAR(32)[]
+);
+COMMENT ON TABLE ogm_support_matrix IS 'The status of OGM support';
+
+

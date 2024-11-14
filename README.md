@@ -59,6 +59,8 @@ Those files are generated via `export_database.sh` and contain the following inf
 <dd>The full list of all released versions of the Java driver, server_versions is a nested attribute, containing a list of supported servers.</dd>
 <dt><code>v_neo4j_driver_support_matrix.csv</code></dt>
 <dd>Neo4j and driver support matrix</dd>
+<dt><code>v_neo4j_ogm_support_matrix.csv</code></dt>
+<dd>The list of Neo4j-OGM releases, their minimum required and maximum supported Java driver and the server version they can connect to</dd>
 <dt><code>v_neo4j_versions.csv</code></dt>
 <dd>All known Neo4j versions</dd>
 <dt><code>v_oss_supported_sdn_versions.csv</code></dt>

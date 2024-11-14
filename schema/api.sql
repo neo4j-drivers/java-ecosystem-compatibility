@@ -120,3 +120,42 @@ CREATE OR REPLACE VIEW v_neo4j_driver_support_matrix AS (
     ORDER BY f_make_version(neo4j_version) DESC
 );
 COMMENT ON VIEW v_neo4j_driver_support_matrix IS 'Neo4j and driver support matrix';
+
+--
+-- v_neo4j_ogm_support_matrix
+--
+CREATE OR REPLACE VIEW v_neo4j_ogm_support_matrix AS (
+    WITH dsm AS (
+        SELECT *, f_make_version(neo4j_java_driver) AS orderable_version
+        FROM driver_server_matrix
+    ),
+    drivers AS (
+       SELECT *, f_make_version(neo4j_java_driver) orderable_version FROM driver_versions
+    ),
+    ogm_server AS (
+       SELECT g.* EXCLUDE(supported_driver_lines),
+              supported_driver_line,
+              unnest(neo4j_versions) neo4j_version
+       FROM ogm_support_matrix g, unnest(g.supported_driver_lines) AS sl(supported_driver_line)
+       ASOF LEFT JOIN dsm ON f_make_version(supported_driver_line) >= dsm.orderable_version
+    ),
+    server_by_ogm AS (
+        SELECT neo4j_ogm, status,
+               -- I'd rather use min_by and max_by here, but they don't support a list argument as order criterion
+               list(supported_driver_line ORDER BY f_make_version(supported_driver_line))[1] AS first_supported_driver,
+               list(supported_driver_line ORDER BY f_make_version(supported_driver_line))[-1] AS last_supported_driver,
+               list(neo4j_version ORDER BY f_make_version(neo4j_version)) AS Neo4j
+        FROM ogm_server
+        GROUP BY ALL
+    )
+    SELECT neo4j_ogm AS "Neo4j-OGM", status AS Status,
+           list(neo4j_java_driver ORDER BY orderable_version)[1] AS "Minimum required Java driver",
+           list(neo4j_java_driver ORDER BY orderable_version)[-1] AS "Maximum required Java driver",
+           Neo4j,
+    FROM server_by_ogm, drivers
+    WHERE f_make_line(drivers.orderable_version) = f_make_line(f_make_version(first_supported_driver))
+       OR f_make_line(drivers.orderable_version) = f_make_line(f_make_version(last_supported_driver))
+    GROUP BY neo4j_ogm, status, Neo4j,
+    ORDER BY f_make_version(neo4j_ogm) DESC
+);
+COMMENT ON VIEW v_neo4j_ogm_support_matrix IS 'The list of Neo4j-OGM releases, their minimum required and maximum supported Java driver and the server version they can connect to';

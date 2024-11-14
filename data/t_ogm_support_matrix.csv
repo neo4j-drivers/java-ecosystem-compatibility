@@ -1,0 +1,8 @@
+neo4j_ogm,bolt_only,status,supported_driver_lines
+4.0,true,supported,[5.x]
+3.3,false,bugfix,[4.4]
+3.2,false,bugfix,"[4.0, 4.4]"
+3.1,false,unsupported,"[1.6, 1.7]"
+3.0,false,unsupported,"[1.5, 1.6]"
+2.1,false,unsupported,[1.2]
+2.0,false,unsupported,[1.0]
