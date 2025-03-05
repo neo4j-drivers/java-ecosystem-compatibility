@@ -114,7 +114,7 @@ CREATE OR REPLACE VIEW v_neo4j_driver_support_matrix AS (
            n.release_date,
            n.end_of_support,
            first(d.neo4j_java_driver ORDER BY f_make_version(d.neo4j_java_driver) DESC) AS recommended_driver,
-           list(DISTINCT d.line ORDER BY f_make_version(d.line) DESC) AS compatible_driver_lines,
+           list_transform(list(DISTINCT f_make_version(d.line) ORDER BY f_make_version(d.line) DESC), v -> IF(v[1] >= 5, concat(v[1], '.x'), list_reduce(list_transform(v[1:2], x -> CAST (x AS VARCHAR)), (x,y) -> concat(x, '.', y)))) AS compatible_driver_lines,
            (end_of_support IS NULL OR end_of_support >= today() AND first(d.supported ORDER BY f_make_version(d.neo4j_java_driver) DESC)) AS supported
     FROM v_neo4j_versions n, v_java_driver_versions d
     WHERE list_contains(d.neo4j_versions, n.line)
