@@ -1,5 +1,5 @@
 Neo4j-OGM,Status,Only Bolt support,Minimum required Java driver,Maximum required Java driver,Neo4j
-4.0,supported,true,5.0.0,5.28.2,"[4.4, 5.x]"
+4.0,supported,true,5.0.0,5.28.5,"[4.4, 5.x]"
 3.3,bugfix,false,4.4.0,4.4.20,"[3.5, 4.0, 4.1, 4.2, 4.3, 4.4, 5.x]"
 3.2,bugfix,false,4.0.0,4.4.20,"[3.5, 3.5, 4.0, 4.0, 4.1, 4.2, 4.3, 4.4, 5.x]"
 3.1,unsupported,false,1.6.0,1.7.6,"[3.2, 3.3, 3.3, 3.4, 3.4, 3.5]"
